@@ -15,7 +15,7 @@ from mpl_toolkits.basemap import Basemap,interp
 # FILES      #----------------------------------------------------------------- 
 ##############
 #GEOS-Chem
-gc='/home/bb907/Desktop/Computer/Work/Data/Ship_Train_insitu/GEOS_CHEM/merra2_CO2/monthly_all/monthly2013.nc'
+gc='/home/bb907/Desktop/Computer/Work/Data/Ship_Train_insitu/GEOS_CHEM/merra2_CO2/monthly_all_old/monthly2013.nc'
 dataset= MFDataset(gc)  
 ##############
 # READ       #----------------------------------------------------------------- 
@@ -43,23 +43,24 @@ lons=lon[:,0]
 
 def basemap(lons,lats,time,tit):
     #Set the map colour
-    pl_color='inferno'
+    pl_color='magma_r'
     m=Basemap(projection='cyl',llcrnrlat=-88,urcrnrlat=88, llcrnrlon=-178,urcrnrlon=178,resolution='c')
-    m.drawcountries(linewidth=0.7,color='white')
-    m.drawcoastlines(linewidth=0.7,color='white')
-    m.drawmapboundary(linewidth=0.7,color='white')
-    m.drawparallels([0],labels=[0,0,0,0], linewidth=2,color='white') # draw equator, no label     
+    m.drawcountries(linewidth=0.7,color='black')
+    m.drawcoastlines(linewidth=0.7,color='black')
+    m.drawmapboundary(linewidth=0.7,color='black')
+    m.drawparallels([0],labels=[0,0,0,0], linewidth=2,color='black') # draw equator, no label     
     lons,lats=m(lons,lats)
     #CO pcolor
     cs=m.pcolormesh(lons, lats, x[time,0,:,:], cmap=pl_color,latlon=True)#, vmin=0, vmax=500)#,
     #add title, colorbar
     cb=m.colorbar(cs,"bottom",size="5%", pad="2%")
-    cb.set_label('mm/day')
+    cb.ax.tick_params(labelsize=25)
+    cb.set_label('mm/day',fontsize=25)
     plt.clim(0,11)
     cb.set_ticks(np.arange(0, 11, 2))
     if tit=='July':
         cb.remove()
-    plt.title(tit)
+    plt.title(tit,fontsize=25)
     return m
 
 fig = plt.figure()    
